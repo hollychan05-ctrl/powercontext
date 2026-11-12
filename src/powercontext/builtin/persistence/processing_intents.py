@@ -141,6 +141,28 @@ class ArtifactProcessingIntentRepository:
             StoredArtifactProcessingIntent, await self.load(connection, scope_id, binding_name, for_update=True)
         )
 
+    async def accept_counted(
+        self, connection: AsyncConnection, scope_id: str, binding_name: str, /
+    ) -> bool:
+        """Accept one invocation for a count-threshold crossing.
+
+        Idempotent against an outstanding request: a Scope with ``requested`` still ahead of
+        ``handled`` already has work in flight, so a repeated crossing must not queue a second
+        invocation. Returns ``True`` only when this call advanced the request generation.
+        """
+
+        await self.ensure(connection, scope_id, binding_name)
+        current = await self.load(connection, scope_id, binding_name, for_update=True)
+        if current is None or current.requested_generation > current.handled_generation:
+            return False
+        table = ARTIFACT_PROCESSING_INTENTS_TABLE
+        await connection.execute(
+            update(table)
+            .where(table.c.scope_id == scope_id, table.c.binding_name == binding_name)
+            .values(requested_generation=current.requested_generation + 1)
+        )
+        return True
+
     async def acknowledge(
         self,
         connection: AsyncConnection,
