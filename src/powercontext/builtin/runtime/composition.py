@@ -82,10 +82,11 @@ from powercontext.builtin.inference.usage import (
 )
 from powercontext.builtin.persistence.dream_schema import ensure_dream_schema
 from powercontext.builtin.persistence.memory_index import CompositeMemoryIndex, MemoryIndex
+from powercontext.builtin.persistence.source_lifecycle import SourceLifecycleStore
 from powercontext.builtin.persistence.oceanbase.experience_index import OceanBaseExperienceFTSIndex
 from powercontext.builtin.persistence.oceanbase.memory_index import (
     OceanBaseMemoryFTSIndex,
-    OceanBaseMemoryVectorIndex,
+    OceanBaseMemoryHybridIndex,
 )
 from powercontext.builtin.persistence.oceanbase.profile import OceanBaseConfig, OceanBaseProfile
 from powercontext.builtin.persistence.oceanbase.topic_memory_index import (
@@ -634,6 +635,7 @@ async def open_builtin_runtime(
                 topic_memory_embedding_model=configured_embedding,
                 topic_memory_processing_available=topic_memory_processing_available,
                 topic_memory_search_observer=topic_memory_search_observer,
+                lifecycle_store=SourceLifecycleStore(contexts.database),
                 external_skill_registry=contexts.external_skills if contexts.external_skill_registry else None,
                 external_skill_importer=contexts.import_external_skill if contexts.external_skill_registry else None,
                 skill_publication_service=contexts.skill_publications,
@@ -779,6 +781,7 @@ def _artifact_processing_bindings(  # noqa: C901 - validate and assemble one reg
                 max_workers=getattr(config.runtime, f"{prefix}_max_workers"),
                 worker_timeout_seconds=getattr(config.runtime, f"{prefix}_worker_timeout_seconds"),
                 automatic_processing_interval=None if interval is None else timedelta(seconds=float(interval)),
+                source_count_threshold=getattr(config.runtime, f"{prefix}_source_count_threshold", None),
                 cron=config.runtime.profile_cron
                 if family == "profile" and config.runtime.profile_schedule_enabled
                 else None,
@@ -960,10 +963,10 @@ async def open_builtin_contexts(
                 await contexts.aclose_usage_recorder()
         return
     experience_index = OceanBaseExperienceFTSIndex()
-    indexes = [OceanBaseMemoryFTSIndex()]
     if embedding_model is not None:
-        indexes.append(OceanBaseMemoryVectorIndex(embedding_model.profile))
-    index = CompositeMemoryIndex(*indexes)
+        index: MemoryIndex = OceanBaseMemoryHybridIndex(embedding_model.profile)
+    else:
+        index = OceanBaseMemoryFTSIndex()
     topic_indexes: list[TopicMemoryIndex] = [OceanBaseTopicMemoryFTSIndex()]
     if embedding_model is not None:
         topic_indexes.append(OceanBaseTopicMemoryVectorIndex(embedding_model.profile))
