@@ -144,6 +144,7 @@ from powercontext.builtin.persistence.artifact_governance import (
     ArtifactLifecycleState,
 )
 from powercontext.builtin.persistence.skill_publications import SkillPublication
+from powercontext.builtin.persistence.source_lifecycle import SourceLifecycleStore
 from powercontext.builtin.publication import ArtifactPublicationApplication
 from powercontext.builtin.records import (
     ArtifactCreated,
@@ -249,6 +250,7 @@ from powercontext.builtin.runtime.recall_sufficiency import (
     build_recall_candidates,
     recall_effort,
 )
+from powercontext.builtin.runtime.source_lifecycle import SourceLifecycleApplication
 from powercontext.builtin.runtime.statistics import RelationalScopedStatistics, overview_selection
 from powercontext.builtin.scope import ScopeApplication, ScopeDescriptor, ScopeSelection
 from powercontext.builtin.scope.subject_sources import SubjectSourceService
@@ -2686,6 +2688,7 @@ class ScopedTopicMemoryApplication:
                     query_embedding,
                     embedding_timeout_seconds,
                 )
+            result = await self._without_unsupported_topics(result)
         observer = self._runtime._topic_memory_search_observer
         if observer is not None:
             try:
@@ -2703,6 +2706,17 @@ class ScopedTopicMemoryApplication:
                     },
                 )
         return result
+
+    async def _without_unsupported_topics(self, result: TopicMemorySearchResult) -> TopicMemorySearchResult:
+        """Drop Topics whose evidence was withdrawn from the Scope's lifecycle graph."""
+
+        hidden = await self._runtime.lifecycle.inactive_topic_ids(self.scope_id)
+        if not hidden:
+            return result
+        hits = tuple(hit for hit in result.hits if hit.artifact_ref.artifact_id not in hidden)
+        if len(hits) == len(result.hits):
+            return result
+        return result.model_copy(update={"hits": hits})
 
     async def _search_with_embedding(
         self,
@@ -3026,6 +3040,7 @@ class BuiltinRuntime:
         topic_memory_embedding_model: EmbeddingModel | None = None,
         topic_memory_processing_available: bool = False,
         topic_memory_search_observer: TopicMemorySearchObserver | None = None,
+        lifecycle_store: SourceLifecycleStore | None = None,
         external_skill_registry: ExternalSkillRegistryFactory | None = None,
         external_skill_importer: ExternalSkillImporter | None = None,
         skill_publication_service: SkillPublicationServiceFactory | None = None,
@@ -3082,6 +3097,7 @@ class BuiltinRuntime:
         self._topic_memory_embedding_model = topic_memory_embedding_model
         self._topic_memory_processing_available = topic_memory_processing_available
         self._topic_memory_search_observer = topic_memory_search_observer
+        self._lifecycle_store = lifecycle_store
         self._external_skill_registry = external_skill_registry
         self._external_skill_importer = external_skill_importer
         self._skill_publication_service = skill_publication_service
@@ -3129,6 +3145,7 @@ class BuiltinRuntime:
         self.work = WorkApplication(self)
         self.memory = MemoryApplication(self)
         self.topic_memory = TopicMemoryApplication(self)
+        self.lifecycle = SourceLifecycleApplication(self)
         self.records = RecordApplication(self)
         self.prompts = PromptApplication(self)
         self.review = ReviewApplication(self)

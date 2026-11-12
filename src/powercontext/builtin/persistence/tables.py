@@ -1180,6 +1180,39 @@ RECURRENCE_OBSERVATION_TABLE = Table(
 
 RECURRENCE_TABLES = (RECURRENCE_MATCH_TABLE, RECURRENCE_OBSERVATION_TABLE)
 
+SOURCE_LIFECYCLE_TABLE = Table(
+    "pc_source_lifecycle_nodes",
+    SHARED_METADATA,
+    Column("scope_id", identity_string(MAX_SCOPE_ID_LENGTH), primary_key=True),
+    Column("node_id", identity_string(MAX_ARTIFACT_ID_LENGTH), primary_key=True),
+    Column("ordinal", Integer, nullable=False),
+    Column("kind", identity_string(16), nullable=False),
+    # One canonical JSON object/list per row keeps the exact registered binding and parent set.
+    Column("binding", _entry_text_type(), nullable=False),
+    Column("parents", _entry_text_type(), nullable=False),
+    Column("policy", identity_string(8), nullable=False),
+    Column("revision", Integer),
+    Column("sequence", Integer, nullable=False),
+    Column("available", Boolean, nullable=False),
+    ForeignKeyConstraint(("scope_id",), ("pc_scopes.scope_id",), ondelete="CASCADE"),
+    UniqueConstraint("scope_id", "ordinal", name="uq_pc_source_lifecycle_ordinal"),
+    CheckConstraint("ordinal >= 0", name="ck_pc_source_lifecycle_ordinal_nonnegative"),
+    CheckConstraint(
+        "kind IN ('source', 'memory', 'topic')",
+        name="ck_pc_source_lifecycle_kind",
+    ),
+    CheckConstraint(
+        "policy IN ('all', 'any')",
+        name="ck_pc_source_lifecycle_policy",
+    ),
+    CheckConstraint("sequence >= 0", name="ck_pc_source_lifecycle_sequence_nonnegative"),
+    CheckConstraint(
+        "revision IS NULL OR revision > 0",
+        name="ck_pc_source_lifecycle_revision_positive",
+    ),
+)
+
+
 BUILTIN_TABLES = (
     SCOPE_TABLES
     + SHARED_TABLES
@@ -1187,5 +1220,5 @@ BUILTIN_TABLES = (
     + MEMORY_TABLES
     + STATISTICS_TABLES
     + RECURRENCE_TABLES
-    + (ARTIFACT_TAGS_TABLE, DREAM_RUNS_TABLE, RECEIPT_MIGRATION_REVIEW_TABLE)
+    + (ARTIFACT_TAGS_TABLE, DREAM_RUNS_TABLE, RECEIPT_MIGRATION_REVIEW_TABLE, SOURCE_LIFECYCLE_TABLE)
 )
