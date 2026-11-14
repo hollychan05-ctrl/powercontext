@@ -1,0 +1,19 @@
+{
+  "name": "stepfun-edge-kb-server",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Local backend for the browser-side-embedding mini knowledge base (seekdb hybrid retrieval).",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.mjs",
+    "dev": "node --watch src/index.mjs",
+    "unit": "node test/unit.mjs",
+    "smoke": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "seekdb": "^1.4.0"
+  }
+}

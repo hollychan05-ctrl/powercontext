@@ -1,0 +1,16 @@
+{"id":"db-engine","text":"seekdb is an AI-native search database that unifies vector, full-text, structured, and semi-structured data in a single engine.","metadata":{"topic":"database"}}
+{"id":"hybrid-search","text":"Hybrid search combines keyword matching with semantic vector similarity. seekdb performs both channels and fuses the results with reciprocal rank fusion.","metadata":{"topic":"retrieval"}}
+{"id":"vector-index","text":"A vector index such as HNSW supports approximate nearest neighbor search over dense embeddings, trading a little recall for large speedups.","metadata":{"topic":"index"}}
+{"id":"fulltext-index","text":"A full-text index tokenizes documents and ranks them by term frequency, which helps when a query contains an exact keyword or a rare term.","metadata":{"topic":"index"}}
+{"id":"browser-inference","text":"Transformers.js runs ONNX models directly in the browser, so text embeddings can be computed on the user's device without any server call.","metadata":{"topic":"edge"}}
+{"id":"webgpu-backend","text":"WebGPU gives the browser access to the GPU for model inference. When WebGPU is unavailable, a runtime can fall back to the CPU WebAssembly backend.","metadata":{"topic":"edge"}}
+{"id":"quantization","text":"Quantizing an embedding model to INT8 reduces its file size and memory use, at the cost of a small drop in retrieval quality.","metadata":{"topic":"performance"}}
+{"id":"fp16","text":"Half precision (FP16) stores weights in 16 bits, roughly halving model size compared with FP32 with negligible quality loss.","metadata":{"topic":"performance"}}
+{"id":"rrf","text":"Reciprocal Rank Fusion merges several ranked lists by summing 1/(k + rank); it needs no score calibration across the channels being fused.","metadata":{"topic":"retrieval"}}
+{"id":"rag","text":"Retrieval augmented generation retrieves relevant passages first and then conditions a language model on them to produce grounded answers.","metadata":{"topic":"application"}}
+{"id":"embeddings","text":"An embedding maps a piece of text to a dense vector so that semantically similar texts end up close under cosine distance.","metadata":{"topic":"retrieval"}}
+{"id":"seekdb-js","text":"The seekdb-js SDK exposes collections with full-text, dense vector, and sparse vector indexes, and a hybridSearch method for fused retrieval.","metadata":{"topic":"sdk"}}
+{"id":"incremental-write","text":"New documents become searchable after they are written and the index is refreshed, so incremental imports keep the knowledge base consistent.","metadata":{"topic":"sdk"}}
+{"id":"client-merge","text":"Fetching keyword results and vector results separately and merging them in application code is not the same as a database-side hybrid query.","metadata":{"topic":"retrieval"}}
+{"id":"cosine","text":"Cosine distance measures the angle between two vectors and ignores their magnitude, so normalization makes vector length irrelevant.","metadata":{"topic":"index"}}
+{"id":"wasm","text":"WebAssembly runs compiled code in the browser at near native speed and works on machines where the GPU is not available.","metadata":{"topic":"edge"}}

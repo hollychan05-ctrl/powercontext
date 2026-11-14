@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-11-14T14:04:23.399Z",
+  "app_name": "迷宮酒館",
+  "conversation_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+  "turns": 3,
+  "node_executions": 21,
+  "node_types": [
+    "answer",
+    "code",
+    "http-request",
+    "knowledge-retrieval",
+    "llm",
+    "start"
+  ],
+  "failed_nodes": [],
+  "state_turn": 3,
+  "state_location": "階梯井",
+  "state_hp": 20,
+  "state_gold": 8,
+  "memory_records": 7,
+  "memory_ops": [
+    "read",
+    "write",
+    "read",
+    "write",
+    "read",
+    "write",
+    "read"
+  ],
+  "db": {
+    "mode": "server",
+    "host": "127.0.0.1",
+    "port": 2881,
+    "database": "test",
+    "collection_prefix": "maze_tavern_state"
+  },
+  "recall_mode": "list"
+}

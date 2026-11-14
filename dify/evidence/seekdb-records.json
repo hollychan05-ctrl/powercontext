@@ -1,0 +1,200 @@
+{
+  "state": {
+    "ok": true,
+    "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+    "found": true,
+    "state": {
+      "hp": 20,
+      "hp_max": 20,
+      "gold": 8,
+      "location": "階梯井",
+      "turn": 3,
+      "inventory": [],
+      "flags": {},
+      "stats": {
+        "str": 3,
+        "agi": 4,
+        "int": 5,
+        "wil": 4
+      },
+      "death_count": 0,
+      "last_narrative": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\n\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\n\n\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*"
+    },
+    "memory_seq": 7,
+    "memories": [
+      {
+        "op": "read",
+        "turn": 3,
+        "location": "階梯井",
+        "player_input": "",
+        "summary": "read state (stored)",
+        "delta": "",
+        "score": null
+      },
+      {
+        "op": "write",
+        "turn": 3,
+        "location": "階梯井",
+        "player_input": "我要離開酒館，往迷宮走。",
+        "summary": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。 你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。 *你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*",
+        "delta": "moved 燭火廳->階梯井",
+        "score": null
+      },
+      {
+        "op": "read",
+        "turn": 2,
+        "location": "燭火廳",
+        "player_input": "我要離開酒館，往迷宮走。",
+        "summary": "read state (stored)",
+        "delta": "",
+        "score": null
+      },
+      {
+        "op": "write",
+        "turn": 2,
+        "location": "燭火廳",
+        "player_input": "我想看看吧台下面有沒有暗格。",
+        "summary": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*",
+        "delta": "",
+        "score": null
+      },
+      {
+        "op": "read",
+        "turn": 1,
+        "location": "燭火廳",
+        "player_input": "我想看看吧台下面有沒有暗格。",
+        "summary": "read state (stored)",
+        "delta": "",
+        "score": null
+      }
+    ],
+    "recall_mode": "list",
+    "db": {
+      "mode": "server",
+      "host": "127.0.0.1",
+      "port": 2881,
+      "database": "test",
+      "collection_prefix": "maze_tavern_state"
+    }
+  },
+  "memory": {
+    "ok": true,
+    "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+    "mode": "list",
+    "count": 7,
+    "entries": [
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000007",
+        "metadata": {
+          "op": "read",
+          "seq": 7,
+          "kind": "memory",
+          "turn": 3,
+          "delta": "",
+          "summary": "read state (stored)",
+          "location": "階梯井",
+          "created_at": "2026-11-14T14:04:22.545Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": ""
+        },
+        "document": "turn 3\nread\nsummary: read state (stored)\nlocation 階梯井"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000006",
+        "metadata": {
+          "op": "write",
+          "seq": 6,
+          "kind": "memory",
+          "turn": 3,
+          "delta": "moved 燭火廳->階梯井",
+          "summary": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。 你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。 *你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*",
+          "location": "階梯井",
+          "created_at": "2026-11-14T14:04:20.073Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我要離開酒館，往迷宮走。"
+        },
+        "document": "turn 3\nwrite\nplayer said: 我要離開酒館，往迷宮走。\nsummary: 你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。 你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。 *你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*\nlocation 階梯井\ndelta: moved 燭火廳->階梯井"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000005",
+        "metadata": {
+          "op": "read",
+          "seq": 5,
+          "kind": "memory",
+          "turn": 2,
+          "delta": "",
+          "summary": "read state (stored)",
+          "location": "燭火廳",
+          "created_at": "2026-11-14T14:03:41.607Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我要離開酒館，往迷宮走。"
+        },
+        "document": "turn 2\nread\nplayer said: 我要離開酒館，往迷宮走。\nsummary: read state (stored)\nlocation 燭火廳"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000004",
+        "metadata": {
+          "op": "write",
+          "seq": 4,
+          "kind": "memory",
+          "turn": 2,
+          "delta": "",
+          "summary": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*",
+          "location": "燭火廳",
+          "created_at": "2026-11-14T14:03:39.493Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我想看看吧台下面有沒有暗格。"
+        },
+        "document": "turn 2\nwrite\nplayer said: 我想看看吧台下面有沒有暗格。\nsummary: 你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\nlocation 燭火廳"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000003",
+        "metadata": {
+          "op": "read",
+          "seq": 3,
+          "kind": "memory",
+          "turn": 1,
+          "delta": "",
+          "summary": "read state (stored)",
+          "location": "燭火廳",
+          "created_at": "2026-11-14T14:03:18.487Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我想看看吧台下面有沒有暗格。"
+        },
+        "document": "turn 1\nread\nplayer said: 我想看看吧台下面有沒有暗格。\nsummary: read state (stored)\nlocation 燭火廳"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000002",
+        "metadata": {
+          "op": "write",
+          "seq": 2,
+          "kind": "memory",
+          "turn": 1,
+          "delta": "",
+          "summary": "你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*",
+          "location": "燭火廳",
+          "created_at": "2026-11-14T14:03:16.474Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我推開門，想先跟館主老霍說話。"
+        },
+        "document": "turn 1\nwrite\nplayer said: 我推開門，想先跟館主老霍說話。\nsummary: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\nlocation 燭火廳"
+      },
+      {
+        "id": "7108a79f-fd07-4d74-863e-aad11ad820d8:000001",
+        "metadata": {
+          "op": "read",
+          "seq": 1,
+          "kind": "memory",
+          "turn": 0,
+          "delta": "",
+          "summary": "read state (new session)",
+          "location": "燭火廳",
+          "created_at": "2026-11-14T14:02:37.581Z",
+          "session_id": "7108a79f-fd07-4d74-863e-aad11ad820d8",
+          "player_input": "我推開門，想先跟館主老霍說話。"
+        },
+        "document": "turn 0\nread\nplayer said: 我推開門，想先跟館主老霍說話。\nsummary: read state (new session)\nlocation 燭火廳"
+      }
+    ]
+  }
+}

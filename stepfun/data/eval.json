@@ -1,0 +1,13 @@
+{
+  "note": "Small labeled set over data/corpus.jsonl. `relevant` lists the document ids that should be retrieved. Used for the on-device Recall@K / nDCG@K comparison before and after quantization.",
+  "queries": [
+    { "query": "How does hybrid search combine keyword and vector results?", "relevant": ["hybrid-search", "rrf"] },
+    { "query": "What does an HNSW vector index do?", "relevant": ["vector-index"] },
+    { "query": "Can text embeddings be computed in the browser without a server?", "relevant": ["browser-inference", "wasm"] },
+    { "query": "How can I reduce the embedding model file size?", "relevant": ["quantization", "fp16"] },
+    { "query": "What happens when WebGPU is not supported?", "relevant": ["webgpu-backend", "wasm"] },
+    { "query": "How are two ranked lists fused together?", "relevant": ["rrf", "hybrid-search"] },
+    { "query": "Why is merging keyword and vector results in application code different from a database hybrid query?", "relevant": ["client-merge"] },
+    { "query": "How does the seekdb-js SDK expose hybrid retrieval over collections?", "relevant": ["seekdb-js"] }
+  ]
+}

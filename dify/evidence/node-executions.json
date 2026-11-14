@@ -1,0 +1,761 @@
+[
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "start",
+    "node_type": "start",
+    "title": "Start",
+    "status": "succeeded",
+    "elapsed_time": 0.00048,
+    "inputs": {},
+    "outputs": {},
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "get_context",
+    "node_type": "http-request",
+    "title": "讀取回合簡報（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 1.470834,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=0 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我推開門，想先跟館主老霍說話。\n\n## 近期紀錄（seekdb 記憶日誌）\n(尚無紀錄，這是第一回合)\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "content-length": "413",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:02:38 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "retrieve_rules",
+    "node_type": "knowledge-retrieval",
+    "title": "檢索規則卡（seekdb KB）",
+    "status": "succeeded",
+    "elapsed_time": 5.609625,
+    "inputs": {
+      "query": "我推開門，想先跟館主老霍說話。"
+    },
+    "outputs": {
+      "result": [
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "bf9a1796-4828-4c89-b2fb-30aa59bfb839",
+            "document_name": "10-場景設定-迷宮",
+            "data_source_type": "upload_file",
+            "segment_id": "e44d2887-91eb-4a69-9a3d-e01fafcc3de7",
+            "retriever_from": "workflow",
+            "score": 0.6497882813006622,
+            "child_chunks": [],
+            "segment_hit_count": 19,
+            "segment_word_count": 478,
+            "segment_position": 1,
+            "segment_index_node_hash": "ecaaf80dcf96a32557faec946f74e3e681321acd10f2867d00de8ed8d8c7cd75",
+            "doc_metadata": null,
+            "position": 1
+          },
+          "title": "10-場景設定-迷宮",
+          "files": null,
+          "content": "場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "49ab5e13-2edf-40c0-804c-37336470c4c4",
+            "document_name": "03-檢定系統",
+            "data_source_type": "upload_file",
+            "segment_id": "742f9997-7dba-4264-9335-b5829ccca2be",
+            "retriever_from": "workflow",
+            "score": 0.6496971064753584,
+            "child_chunks": [],
+            "segment_hit_count": 6,
+            "segment_word_count": 208,
+            "segment_position": 2,
+            "segment_index_node_hash": "ff7c26e555527b6b8288c0d7c47d60029c7a3bb975934c362f38dc9a11313511",
+            "doc_metadata": null,
+            "position": 2
+          },
+          "title": "03-檢定系統",
+          "files": null,
+          "content": "難度對照\n| 難度 | 需求 | 情境 |\n|---|---|---|\n| 簡易 | 3 | 推門、點燈、讀懂明顯的標記 |\n| 普通 | 6 | 撬鎖、攀爬、辨認偽裝 |\n| 困難 | 9 | 潛入守衛視線、破解古代機關 |\n| 極難 | 12 | 對抗迷宮本身的規則、欺騙織夢者 |\n\n## 失敗不是結束\n失敗時敘述結果與代價（例如「鎖簧彈開，卻夾傷了你的手指——**hp -2**」），不要直接說「你失敗了」。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "e352c1bb-e49f-4423-8d7d-30d9e94b54cd",
+            "document_name": "08-失敗死亡與重來",
+            "data_source_type": "upload_file",
+            "segment_id": "841d8016-a3b9-4c22-ae27-a1641d21b413",
+            "retriever_from": "workflow",
+            "score": 0.6480025931522164,
+            "child_chunks": [],
+            "segment_hit_count": 6,
+            "segment_word_count": 412,
+            "segment_position": 1,
+            "segment_index_node_hash": "51874535304eef7e2ea925ea78b34d25eef6c0cb886c266c2ff1f5debff57658",
+            "doc_metadata": null,
+            "position": 3
+          },
+          "title": "08-失敗死亡與重來",
+          "files": null,
+          "content": "失敗、死亡與重來\n\n## 失敗的處理\n- 檢定失敗 → 敘述代價，`hp` 或 `gold` 或 `flags` 改變。\n- 不要重複同一個謎題的同一種失敗。玩家已經試過的方式，第二次要換成「事情變了」而不是「一樣的失敗」。\n\n## 死亡（`hp <= 0`）\n1. 先寫一個收束的場景：燭火熄了、酒杯倒轉、石牆開始靠近。\n2. 狀態區塊輸出 `hp: 0`。\n3. 敘述中給出**重來的鉤子**：例如「你在自己房間醒來，枕邊有半張星圖——你確定昨晚不是第一次做這個夢」。\n4. 把 `flags` 中的 `death_count` 加 1，並保留其他旗標。\n5. `hp` 重設為 `hp_max`。\n\n## 死亡不結束遊戲\n迷宮酒館的設定是：**你會回來，但會忘記一點東西**。\n每次死亡，在敘事裡點名一件「你似乎忘了」的小事（一個物品、一句話、一個人名），但**不要真的刪掉狀態**，只是在敘事層暗示，讓玩家自己發現。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "9731689e-ccb1-4eee-9497-b046283d12d9",
+            "document_name": "07-謎題線索與旗標",
+            "data_source_type": "upload_file",
+            "segment_id": "57e6288d-f04b-43de-811b-41fbc3c526d7",
+            "retriever_from": "workflow",
+            "score": 0.6473398610015979,
+            "child_chunks": [],
+            "segment_hit_count": 13,
+            "segment_word_count": 488,
+            "segment_position": 1,
+            "segment_index_node_hash": "baf8af6741ce97eaced5187831203a9898243fa30661fcaaae0dfdc129c5c761",
+            "doc_metadata": null,
+            "position": 4
+          },
+          "title": "07-謎題線索與旗標",
+          "files": null,
+          "content": "謎題、線索與旗標\n\n## 三條主線\n1. **月門線**：取得兩半星圖 → 在吧台暗格找到另一半 → 拼合 → 知道第八層東側入口。\n2. **館主線**：取得「館主的名片」→ 醉客鬆口 → 得到「館主其實是上一任館主」的真相。\n3. **織夢者線**：連續三次不撒謊 → 牠會帶你到月門（繞過迷宮）。\n\n## 謎題設計原則\n- 每個謎題都有**至少兩種解法**：一個靠 `int`、一個靠冒險或金幣。\n- 線索必須在**場景描述裡出現過**，不能臨時生造。\n- 謎題失敗要有代價，但代價應可恢復（受傷、失去金幣、浪費一回合）。\n\n## 線索投放\n| 場景 | 線索 |\n|---|---|\n| 燭火廳 | 牆上潮濕的地圖刮痕；吧台底下的空格子 |\n| 階梯井 | 七層樓梯，每層都通往不同地方 |\n| 鹽走廊 | 牆上的抓痕由外向內 |\n| 藏書室 | 一本沒有書名的旅館帳簿 |\n\n## 旗標更新規則\n- 只有在**敘事中真的發生**了才設旗標。\n- 玩家放棄某線索（例如「我不問了」），不要設 `*_failed` 旗標。\n- 每回合最多新增 2 個旗標，避免狀態爆炸。",
+          "summary": null
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "dm",
+    "node_type": "llm",
+    "title": "地下城主（DM）",
+    "status": "succeeded",
+    "elapsed_time": 29.425393,
+    "inputs": {
+      "#get_context.body#": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=0 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我推開門，想先跟館主老霍說話。\n\n## 近期紀錄（seekdb 記憶日誌）\n(尚無紀錄，這是第一回合)\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "#context#": "場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。\n難度對照\n| 難度 | 需求 | 情境 |\n|---|---|---|\n| 簡易 | 3 | 推門、點燈、讀懂明顯的標記 |\n| 普通 | 6 | 撬鎖、攀爬、辨認偽裝 |\n| 困難 | 9 | 潛入守衛視線、破解古代機關 |\n| 極難 | 12 | 對抗迷宮本身的規則、欺騙織夢者 |\n\n## 失敗不是結束\n失敗時敘述結果與代價（例如「鎖簧彈開，卻夾傷了你的手指——**hp -2**」），不要直接說「你失敗了」。\n失敗、死亡與重來\n\n## 失敗的處理\n- 檢定失敗 → 敘述代價，`hp` 或 `gold` 或 `flags` 改變。\n- 不要重複同一個謎題的同一種失敗。玩家已經試過的方式，第二次要換成「事情變了」而不是「一樣的失敗」。\n\n## 死亡（`hp <= 0`）\n1. 先寫一個收束的場景：燭火熄了、酒杯倒轉、石牆開始靠近。\n2. 狀態區塊輸出 `hp: 0`。\n3. 敘述中給出**重來的鉤子**：例如「你在自己房間醒來，枕邊有半張星圖——你確定昨晚不是第一次做這個夢」。\n4. 把 `flags` 中的 `death_count` 加 1，並保留其他旗標。\n5. `hp` 重設為 `hp_max`。\n\n## 死亡不結束遊戲\n迷宮酒館的設定是：**你會回來，但會忘記一點東西**。\n每次死亡，在敘事裡點名一件「你似乎忘了」的小事（一個物品、一句話、一個人名），但**不要真的刪掉狀態**，只是在敘事層暗示，讓玩家自己發現。\n謎題、線索與旗標\n\n## 三條主線\n1. **月門線**：取得兩半星圖 → 在吧台暗格找到另一半 → 拼合 → 知道第八層東側入口。\n2. **館主線**：取得「館主的名片」→ 醉客鬆口 → 得到「館主其實是上一任館主」的真相。\n3. **織夢者線**：連續三次不撒謊 → 牠會帶你到月門（繞過迷宮）。\n\n## 謎題設計原則\n- 每個謎題都有**至少兩種解法**：一個靠 `int`、一個靠冒險或金幣。\n- 線索必須在**場景描述裡出現過**，不能臨時生造。\n- 謎題失敗要有代價，但代價應可恢復（受傷、失去金幣、浪費一回合）。\n\n## 線索投放\n| 場景 | 線索 |\n|---|---|\n| 燭火廳 | 牆上潮濕的地圖刮痕；吧台底下的空格子 |\n| 階梯井 | 七層樓梯，每層都通往不同地方 |\n| 鹽走廊 | 牆上的抓痕由外向內 |\n| 藏書室 | 一本沒有書名的旅館帳簿 |\n\n## 旗標更新規則\n- 只有在**敘事中真的發生**了才設旗標。\n- 玩家放棄某線索（例如「我不問了」），不要設 `*_failed` 旗標。\n- 每回合最多新增 2 個旗標，避免狀態爆炸。",
+      "model_provider": "langgenius/openai_api_compatible/openai_api_compatible",
+      "model_name": "nvidia/nemotron-3-ultra-550b-a55b"
+    },
+    "outputs": {
+      "text": "你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":1,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n\n*你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*",
+      "reasoning_content": "",
+      "usage": {
+        "prompt_tokens": 2472,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 574,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 3046,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 29.462,
+        "time_to_first_token": 24.654,
+        "time_to_generate": 4.808
+      },
+      "finish_reason": "stop"
+    },
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "parse_state",
+    "node_type": "code",
+    "title": "解析狀態區塊",
+    "status": "succeeded",
+    "elapsed_time": 0.331243,
+    "inputs": {
+      "dm_text": "你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":1,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n\n*你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*",
+      "context_text": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=0 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我推開門，想先跟館主老霍說話。\n\n## 近期紀錄（seekdb 記憶日誌）\n(尚無紀錄，這是第一回合)\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "player_input": "我推開門，想先跟館主老霍說話。"
+    },
+    "outputs": {
+      "has_state": "yes",
+      "narrative": "你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」\n\n\n\n*你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*",
+      "player_input": "我推開門，想先跟館主老霍說話。",
+      "state_raw": "{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":1,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}",
+      "status": "生命 20/20　金幣 8　地點 燭火廳　第 1 回合"
+    },
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "save_state",
+    "node_type": "http-request",
+    "title": "寫回狀態（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 2.807732,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "{\"ok\":true,\"session_id\":\"7108a79f-fd07-4d74-863e-aad11ad820d8\",\"state\":{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":1,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4},\"death_count\":0,\"last_narrative\":\"你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」\\n\\n\\n\\n*你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\"},\"memory_seq\":2,\"delta\":\"\",\"degraded\":false,\"warning\":\"\",\"db\":{\"mode\":\"server\",\"host\":\"127.0.0.1\",\"port\":2881,\"database\":\"test\",\"collection_prefix\":\"maze_tavern_state\"}}",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "866",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:03:17 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 1,
+    "workflow_run_id": "ed291e57-b585-44b2-a9b6-ff81ed19d036",
+    "node_id": "answer",
+    "node_type": "answer",
+    "title": "Answer",
+    "status": "succeeded",
+    "elapsed_time": 0.000575,
+    "inputs": {},
+    "outputs": {
+      "answer": "你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」\n\n\n\n*你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n---\n\n**狀態**　生命 20/20　金幣 8　地點 燭火廳　第 1 回合",
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "start",
+    "node_type": "start",
+    "title": "Start",
+    "status": "succeeded",
+    "elapsed_time": 0.000431,
+    "inputs": {},
+    "outputs": {},
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "get_context",
+    "node_type": "http-request",
+    "title": "讀取回合簡報（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 0.879448,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=1 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我想看看吧台下面有沒有暗格。\n\n## 近期紀錄（seekdb 記憶日誌）\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "content-length": "908",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:03:19 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "retrieve_rules",
+    "node_type": "knowledge-retrieval",
+    "title": "檢索規則卡（seekdb KB）",
+    "status": "succeeded",
+    "elapsed_time": 3.664924,
+    "inputs": {
+      "query": "我想看看吧台下面有沒有暗格。"
+    },
+    "outputs": {
+      "result": [
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "5e4a5df2-89b1-4e11-b7dd-2df5023c022c",
+            "document_name": "09-場景設定-酒館",
+            "data_source_type": "upload_file",
+            "segment_id": "37d950ad-2eb7-4da2-aabc-5d89e35af40c",
+            "retriever_from": "workflow",
+            "score": 0.6888155459764872,
+            "child_chunks": [],
+            "segment_hit_count": 13,
+            "segment_word_count": 454,
+            "segment_position": 1,
+            "segment_index_node_hash": "ef872a0f1f216d5d314357f5241239a3d8b3183c0db456ee05f01e849491b6be",
+            "doc_metadata": null,
+            "position": 1
+          },
+          "title": "09-場景設定-酒館",
+          "files": null,
+          "content": "場景設定：醉月酒館\n\n## 燭火廳（起點）\n- 狹長的廳堂，兩排桌，桌上蠟燭永遠只點三盞。\n- 木地板彎曲，走上去會響，像有人在樓上跟著走。\n- 吧台後是一面刻滿名字的牆，每個名字下面刻著一個數字。\n- 空氣有酒味、灰燼味，以及一種淡淡的**鐵鏽味**——沒有人說得清來源。\n- 出口：往北的門（通階梯井）、往後的門（通後巷與藏書室）。\n\n## 吧台暗格\n- 需要用機敏（`int`）檢定，或花 5 金幣買通館主。\n- 內有：半張星圖、一本沒有書名的旅館帳簿、一枚不鏽的齒輪。\n\n## 後巷\n- 堆著空酒桶，一隻不怕人的白貓。\n- 白貓會帶玩家去藏書室——**第一次**才是引路，之後只是巧合。\n- 雨從看不見的縫隙落下，落在地上的水窪裡是**向上的**。\n\n## 藏書室\n- 三面書架，只有中間一面是真的書。\n- 帳簿記載著歷任館主的入住登記，玩家可以查到自己的名字**已經被寫過兩次**。\n\n## 酒館內的動態\n- 蠟燭每回合換一次位置（這是迷宮重排的徵兆）。\n- 館主只在你提到「門」時才會停下擦杯子。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "bf9a1796-4828-4c89-b2fb-30aa59bfb839",
+            "document_name": "10-場景設定-迷宮",
+            "data_source_type": "upload_file",
+            "segment_id": "e44d2887-91eb-4a69-9a3d-e01fafcc3de7",
+            "retriever_from": "workflow",
+            "score": 0.6771072085184756,
+            "child_chunks": [],
+            "segment_hit_count": 20,
+            "segment_word_count": 478,
+            "segment_position": 1,
+            "segment_index_node_hash": "ecaaf80dcf96a32557faec946f74e3e681321acd10f2867d00de8ed8d8c7cd75",
+            "doc_metadata": null,
+            "position": 2
+          },
+          "title": "10-場景設定-迷宮",
+          "files": null,
+          "content": "場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "9731689e-ccb1-4eee-9497-b046283d12d9",
+            "document_name": "07-謎題線索與旗標",
+            "data_source_type": "upload_file",
+            "segment_id": "57e6288d-f04b-43de-811b-41fbc3c526d7",
+            "retriever_from": "workflow",
+            "score": 0.6764672135682509,
+            "child_chunks": [],
+            "segment_hit_count": 14,
+            "segment_word_count": 488,
+            "segment_position": 1,
+            "segment_index_node_hash": "baf8af6741ce97eaced5187831203a9898243fa30661fcaaae0dfdc129c5c761",
+            "doc_metadata": null,
+            "position": 3
+          },
+          "title": "07-謎題線索與旗標",
+          "files": null,
+          "content": "謎題、線索與旗標\n\n## 三條主線\n1. **月門線**：取得兩半星圖 → 在吧台暗格找到另一半 → 拼合 → 知道第八層東側入口。\n2. **館主線**：取得「館主的名片」→ 醉客鬆口 → 得到「館主其實是上一任館主」的真相。\n3. **織夢者線**：連續三次不撒謊 → 牠會帶你到月門（繞過迷宮）。\n\n## 謎題設計原則\n- 每個謎題都有**至少兩種解法**：一個靠 `int`、一個靠冒險或金幣。\n- 線索必須在**場景描述裡出現過**，不能臨時生造。\n- 謎題失敗要有代價，但代價應可恢復（受傷、失去金幣、浪費一回合）。\n\n## 線索投放\n| 場景 | 線索 |\n|---|---|\n| 燭火廳 | 牆上潮濕的地圖刮痕；吧台底下的空格子 |\n| 階梯井 | 七層樓梯，每層都通往不同地方 |\n| 鹽走廊 | 牆上的抓痕由外向內 |\n| 藏書室 | 一本沒有書名的旅館帳簿 |\n\n## 旗標更新規則\n- 只有在**敘事中真的發生**了才設旗標。\n- 玩家放棄某線索（例如「我不問了」），不要設 `*_failed` 旗標。\n- 每回合最多新增 2 個旗標，避免狀態爆炸。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "d32a5d3c-b197-4907-9b9a-6a0bc824e03d",
+            "document_name": "04-戰鬥規則",
+            "data_source_type": "upload_file",
+            "segment_id": "4b71e651-0887-46c6-b849-1703e946b7fb",
+            "retriever_from": "workflow",
+            "score": 0.6721696534165299,
+            "child_chunks": [],
+            "segment_hit_count": 7,
+            "segment_word_count": 151,
+            "segment_position": 2,
+            "segment_index_node_hash": "d34ae1c828cec91bcbba30fc29871643e820ebbc816d2e997f78e8e44569650b",
+            "doc_metadata": null,
+            "position": 4
+          },
+          "title": "04-戰鬥規則",
+          "files": null,
+          "content": "傷害與狀態\n- 傷害直接扣 `hp`，並在 `state` 區塊反映新的 `hp`。\n- `hp <= 0` → 觸發「死亡與重來」規則。\n- **不要**擅自替玩家加入道具或回復 hp。\n\n## 敘事要求\n戰鬥每一回合都要寫清楚：誰動了、做了什麼、結果如何、玩家現在能做什麼。\n不要把戰鬥寫成數值表。",
+          "summary": null
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "dm",
+    "node_type": "llm",
+    "title": "地下城主（DM）",
+    "status": "succeeded",
+    "elapsed_time": 13.937921,
+    "inputs": {
+      "#get_context.body#": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=1 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我想看看吧台下面有沒有暗格。\n\n## 近期紀錄（seekdb 記憶日誌）\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "#context#": "場景設定：醉月酒館\n\n## 燭火廳（起點）\n- 狹長的廳堂，兩排桌，桌上蠟燭永遠只點三盞。\n- 木地板彎曲，走上去會響，像有人在樓上跟著走。\n- 吧台後是一面刻滿名字的牆，每個名字下面刻著一個數字。\n- 空氣有酒味、灰燼味，以及一種淡淡的**鐵鏽味**——沒有人說得清來源。\n- 出口：往北的門（通階梯井）、往後的門（通後巷與藏書室）。\n\n## 吧台暗格\n- 需要用機敏（`int`）檢定，或花 5 金幣買通館主。\n- 內有：半張星圖、一本沒有書名的旅館帳簿、一枚不鏽的齒輪。\n\n## 後巷\n- 堆著空酒桶，一隻不怕人的白貓。\n- 白貓會帶玩家去藏書室——**第一次**才是引路，之後只是巧合。\n- 雨從看不見的縫隙落下，落在地上的水窪裡是**向上的**。\n\n## 藏書室\n- 三面書架，只有中間一面是真的書。\n- 帳簿記載著歷任館主的入住登記，玩家可以查到自己的名字**已經被寫過兩次**。\n\n## 酒館內的動態\n- 蠟燭每回合換一次位置（這是迷宮重排的徵兆）。\n- 館主只在你提到「門」時才會停下擦杯子。\n場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。\n謎題、線索與旗標\n\n## 三條主線\n1. **月門線**：取得兩半星圖 → 在吧台暗格找到另一半 → 拼合 → 知道第八層東側入口。\n2. **館主線**：取得「館主的名片」→ 醉客鬆口 → 得到「館主其實是上一任館主」的真相。\n3. **織夢者線**：連續三次不撒謊 → 牠會帶你到月門（繞過迷宮）。\n\n## 謎題設計原則\n- 每個謎題都有**至少兩種解法**：一個靠 `int`、一個靠冒險或金幣。\n- 線索必須在**場景描述裡出現過**，不能臨時生造。\n- 謎題失敗要有代價，但代價應可恢復（受傷、失去金幣、浪費一回合）。\n\n## 線索投放\n| 場景 | 線索 |\n|---|---|\n| 燭火廳 | 牆上潮濕的地圖刮痕；吧台底下的空格子 |\n| 階梯井 | 七層樓梯，每層都通往不同地方 |\n| 鹽走廊 | 牆上的抓痕由外向內 |\n| 藏書室 | 一本沒有書名的旅館帳簿 |\n\n## 旗標更新規則\n- 只有在**敘事中真的發生**了才設旗標。\n- 玩家放棄某線索（例如「我不問了」），不要設 `*_failed` 旗標。\n- 每回合最多新增 2 個旗標，避免狀態爆炸。\n傷害與狀態\n- 傷害直接扣 `hp`，並在 `state` 區塊反映新的 `hp`。\n- `hp <= 0` → 觸發「死亡與重來」規則。\n- **不要**擅自替玩家加入道具或回復 hp。\n\n## 敘事要求\n戰鬥每一回合都要寫清楚：誰動了、做了什麼、結果如何、玩家現在能做什麼。\n不要把戰鬥寫成數值表。",
+      "model_provider": "langgenius/openai_api_compatible/openai_api_compatible",
+      "model_name": "nvidia/nemotron-3-ultra-550b-a55b"
+    },
+    "outputs": {
+      "text": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":2,\"inventory\":[],\"flags\":[],\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n\n*你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*",
+      "reasoning_content": "",
+      "usage": {
+        "prompt_tokens": 2709,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 583,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 3292,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 13.919,
+        "time_to_first_token": 9.667,
+        "time_to_generate": 4.251
+      },
+      "finish_reason": "stop"
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "parse_state",
+    "node_type": "code",
+    "title": "解析狀態區塊",
+    "status": "succeeded",
+    "elapsed_time": 0.327727,
+    "inputs": {
+      "dm_text": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":2,\"inventory\":[],\"flags\":[],\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n\n*你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*",
+      "context_text": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=1 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我想看看吧台下面有沒有暗格。\n\n## 近期紀錄（seekdb 記憶日誌）\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "player_input": "我想看看吧台下面有沒有暗格。"
+    },
+    "outputs": {
+      "has_state": "yes",
+      "narrative": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。\n\n\n\n*你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*",
+      "player_input": "我想看看吧台下面有沒有暗格。",
+      "state_raw": "{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":2,\"inventory\":[],\"flags\":[],\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}",
+      "status": "生命 20/20　金幣 8　地點 燭火廳　第 2 回合"
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "save_state",
+    "node_type": "http-request",
+    "title": "寫回狀態（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 3.15695,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "{\"ok\":true,\"session_id\":\"7108a79f-fd07-4d74-863e-aad11ad820d8\",\"state\":{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"燭火廳\",\"turn\":2,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4},\"death_count\":0,\"last_narrative\":\"你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。\\n\\n\\n\\n*你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\"},\"memory_seq\":4,\"delta\":\"\",\"degraded\":false,\"warning\":\"\",\"db\":{\"mode\":\"server\",\"host\":\"127.0.0.1\",\"port\":2881,\"database\":\"test\",\"collection_prefix\":\"maze_tavern_state\"}}",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "842",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:03:40 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 2,
+    "workflow_run_id": "06a3afa0-3aca-469e-9f8f-5f6bf8ce7791",
+    "node_id": "answer",
+    "node_type": "answer",
+    "title": "Answer",
+    "status": "succeeded",
+    "elapsed_time": 0.000607,
+    "inputs": {},
+    "outputs": {
+      "answer": "你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。\n\n\n\n*你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\n\n---\n\n**狀態**　生命 20/20　金幣 8　地點 燭火廳　第 2 回合",
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "start",
+    "node_type": "start",
+    "title": "Start",
+    "status": "succeeded",
+    "elapsed_time": 0.00029,
+    "inputs": {},
+    "outputs": {},
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "get_context",
+    "node_type": "http-request",
+    "title": "讀取回合簡報（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 0.78747,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=2 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我要離開酒館，往迷宮走。\n\n## 近期紀錄（seekdb 記憶日誌）\n第2回合 玩家: 我想看看吧台下面有沒有暗格。\n第2回合 DM: 你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "content-length": "1409",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:03:42 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "retrieve_rules",
+    "node_type": "knowledge-retrieval",
+    "title": "檢索規則卡（seekdb KB）",
+    "status": "succeeded",
+    "elapsed_time": 4.107141,
+    "inputs": {
+      "query": "我要離開酒館，往迷宮走。"
+    },
+    "outputs": {
+      "result": [
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "5e4a5df2-89b1-4e11-b7dd-2df5023c022c",
+            "document_name": "09-場景設定-酒館",
+            "data_source_type": "upload_file",
+            "segment_id": "37d950ad-2eb7-4da2-aabc-5d89e35af40c",
+            "retriever_from": "workflow",
+            "score": 0.6029422795603165,
+            "child_chunks": [],
+            "segment_hit_count": 15,
+            "segment_word_count": 454,
+            "segment_position": 1,
+            "segment_index_node_hash": "ef872a0f1f216d5d314357f5241239a3d8b3183c0db456ee05f01e849491b6be",
+            "doc_metadata": null,
+            "position": 1
+          },
+          "title": "09-場景設定-酒館",
+          "files": null,
+          "content": "場景設定：醉月酒館\n\n## 燭火廳（起點）\n- 狹長的廳堂，兩排桌，桌上蠟燭永遠只點三盞。\n- 木地板彎曲，走上去會響，像有人在樓上跟著走。\n- 吧台後是一面刻滿名字的牆，每個名字下面刻著一個數字。\n- 空氣有酒味、灰燼味，以及一種淡淡的**鐵鏽味**——沒有人說得清來源。\n- 出口：往北的門（通階梯井）、往後的門（通後巷與藏書室）。\n\n## 吧台暗格\n- 需要用機敏（`int`）檢定，或花 5 金幣買通館主。\n- 內有：半張星圖、一本沒有書名的旅館帳簿、一枚不鏽的齒輪。\n\n## 後巷\n- 堆著空酒桶，一隻不怕人的白貓。\n- 白貓會帶玩家去藏書室——**第一次**才是引路，之後只是巧合。\n- 雨從看不見的縫隙落下，落在地上的水窪裡是**向上的**。\n\n## 藏書室\n- 三面書架，只有中間一面是真的書。\n- 帳簿記載著歷任館主的入住登記，玩家可以查到自己的名字**已經被寫過兩次**。\n\n## 酒館內的動態\n- 蠟燭每回合換一次位置（這是迷宮重排的徵兆）。\n- 館主只在你提到「門」時才會停下擦杯子。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "39704dc2-6a57-4e71-bc90-6fe08c5c6919",
+            "document_name": "01-DM核心規則",
+            "data_source_type": "upload_file",
+            "segment_id": "5b55593a-aee7-4209-88f3-5109ed302173",
+            "retriever_from": "workflow",
+            "score": 0.6018109262378019,
+            "child_chunks": [],
+            "segment_hit_count": 7,
+            "segment_word_count": 437,
+            "segment_position": 1,
+            "segment_index_node_hash": "04944d05173ba5ed0fc82d48218e43a757e9ebda745bac0d445eea60229dc833",
+            "doc_metadata": null,
+            "position": 2
+          },
+          "title": "01-DM核心規則",
+          "files": null,
+          "content": "DM 核心規則（迷宮酒館）\n\n你是「迷宮酒館」的地下城主（Dungeon Master, DM）。玩家剛推開酒館的木門，燭火搖曳，空酒館裡只有你與他。\n\n## 你的職責\n1. **永遠以場景開始**，不要詢問「你想做什麼」以外的無用問題。\n2. **每次回覆都要推進一個回合**：描述 → 玩家可選行動 → 等待輸入。\n3. **不要替玩家做決定**。玩家是冒險者，你只負責世界。\n4. **保持一致**：已敘述過的物品、NPC、出口在後續回合必須成立。\n\n## 世界的硬性事實\n- 酒館名叫「醉月」，位於迷宮第七層的邊緣，是唯一還開著的酒館。\n- 迷宮會隨每個夜晚重排一次，但**酒館內的東西不會變**。\n- 迷宮深處住著「織夢者」——不是壞人，但牠不理解「死」這件事。\n- 離開酒館的唯一已知方式，是走完迷宮抵達「月門」。\n\n## 語氣\n- 文白夾雜，帶一點酒館的油膩感與石牆的冷。\n- 每次 120～260 字，兩個自然段以內。\n- 不要輸出清單式說明，除非玩家要求。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "bf9a1796-4828-4c89-b2fb-30aa59bfb839",
+            "document_name": "10-場景設定-迷宮",
+            "data_source_type": "upload_file",
+            "segment_id": "e44d2887-91eb-4a69-9a3d-e01fafcc3de7",
+            "retriever_from": "workflow",
+            "score": 0.5986839963452817,
+            "child_chunks": [],
+            "segment_hit_count": 22,
+            "segment_word_count": 478,
+            "segment_position": 1,
+            "segment_index_node_hash": "ecaaf80dcf96a32557faec946f74e3e681321acd10f2867d00de8ed8d8c7cd75",
+            "doc_metadata": null,
+            "position": 3
+          },
+          "title": "10-場景設定-迷宮",
+          "files": null,
+          "content": "場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。",
+          "summary": null
+        },
+        {
+          "metadata": {
+            "_source": "knowledge",
+            "dataset_id": "7f863ba1-9eaa-4abf-8598-0301ae04372a",
+            "dataset_name": "迷宮酒館規則庫",
+            "document_id": "6dae3083-fab3-46f5-8fed-79d63b7e8d7a",
+            "document_name": "11-世界觀與勢力",
+            "data_source_type": "upload_file",
+            "segment_id": "a9754049-fccd-48bb-b35e-78d3aeeb954f",
+            "retriever_from": "workflow",
+            "score": 0.5969363202245186,
+            "child_chunks": [],
+            "segment_hit_count": 7,
+            "segment_word_count": 444,
+            "segment_position": 1,
+            "segment_index_node_hash": "cdc2cd07c0b529a14fd8d2c51b0e88111705e79de23dc2eb32f6b383de8ac03d",
+            "doc_metadata": null,
+            "position": 4
+          },
+          "title": "11-世界觀與勢力",
+          "files": null,
+          "content": "世界觀與勢力\n\n## 迷宮\n不是建築，是**一種生物的消化道**。它每隔七天把裡面的東西重排一次，就像胃在蠕動。\n沒有人知道它從哪裡來。所有試圖量測迷宮的人，最後都成了牆上的一個數字。\n\n## 織夢者\n- 迷宮的「免疫系統」，負責把侵入的東西編進夢裡。\n- 牠不殘暴，牠只是**不理解「結束」**。\n- 牠收藏名字——每一個走進來的人的名字，都被牠存著，像存酒。\n- 與牠對話的唯一規矩：**不要對牠說謊，但可以對牠沉默**。\n\n## 醉月酒館\n- 迷宮裡唯一不重排的地方，因為館主用某種方式「釘住」了它。\n- 館主是第一位把名字賣給織夢者、又被撿回來的人。他重複這個交易了很多次。\n- 酒館的規矩只有一條：**門關上之前，每個人都可以點一杯「不要問名字的酒」**。\n\n## 離開的代價\n走出月門的人會回到地面，但會帶走一個在迷宮裡認識的名字——有時是別人的。\n這是酒館存在的原因：總得有人留下來記得。\n\n## 敘事底色\n迷宮不是恐怖，是**不理解**。最可怕的不是怪物，而是牠們的善意。",
+          "summary": null
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "dm",
+    "node_type": "llm",
+    "title": "地下城主（DM）",
+    "status": "succeeded",
+    "elapsed_time": 30.753028,
+    "inputs": {
+      "#get_context.body#": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=2 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我要離開酒館，往迷宮走。\n\n## 近期紀錄（seekdb 記憶日誌）\n第2回合 玩家: 我想看看吧台下面有沒有暗格。\n第2回合 DM: 你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "#context#": "場景設定：醉月酒館\n\n## 燭火廳（起點）\n- 狹長的廳堂，兩排桌，桌上蠟燭永遠只點三盞。\n- 木地板彎曲，走上去會響，像有人在樓上跟著走。\n- 吧台後是一面刻滿名字的牆，每個名字下面刻著一個數字。\n- 空氣有酒味、灰燼味，以及一種淡淡的**鐵鏽味**——沒有人說得清來源。\n- 出口：往北的門（通階梯井）、往後的門（通後巷與藏書室）。\n\n## 吧台暗格\n- 需要用機敏（`int`）檢定，或花 5 金幣買通館主。\n- 內有：半張星圖、一本沒有書名的旅館帳簿、一枚不鏽的齒輪。\n\n## 後巷\n- 堆著空酒桶，一隻不怕人的白貓。\n- 白貓會帶玩家去藏書室——**第一次**才是引路，之後只是巧合。\n- 雨從看不見的縫隙落下，落在地上的水窪裡是**向上的**。\n\n## 藏書室\n- 三面書架，只有中間一面是真的書。\n- 帳簿記載著歷任館主的入住登記，玩家可以查到自己的名字**已經被寫過兩次**。\n\n## 酒館內的動態\n- 蠟燭每回合換一次位置（這是迷宮重排的徵兆）。\n- 館主只在你提到「門」時才會停下擦杯子。\nDM 核心規則（迷宮酒館）\n\n你是「迷宮酒館」的地下城主（Dungeon Master, DM）。玩家剛推開酒館的木門，燭火搖曳，空酒館裡只有你與他。\n\n## 你的職責\n1. **永遠以場景開始**，不要詢問「你想做什麼」以外的無用問題。\n2. **每次回覆都要推進一個回合**：描述 → 玩家可選行動 → 等待輸入。\n3. **不要替玩家做決定**。玩家是冒險者，你只負責世界。\n4. **保持一致**：已敘述過的物品、NPC、出口在後續回合必須成立。\n\n## 世界的硬性事實\n- 酒館名叫「醉月」，位於迷宮第七層的邊緣，是唯一還開著的酒館。\n- 迷宮會隨每個夜晚重排一次，但**酒館內的東西不會變**。\n- 迷宮深處住著「織夢者」——不是壞人，但牠不理解「死」這件事。\n- 離開酒館的唯一已知方式，是走完迷宮抵達「月門」。\n\n## 語氣\n- 文白夾雜，帶一點酒館的油膩感與石牆的冷。\n- 每次 120～260 字，兩個自然段以內。\n- 不要輸出清單式說明，除非玩家要求。\n場景設定：迷宮\n\n## 階梯井\n- 七層樓梯，每層都通往不同的方向。走錯就回原點（但會多花一回合）。\n- 每層樓梯口刻著數字，數字會在你不注意時改變。\n- 下到第八層需要 `flags.half_map_joined` 為 true，或者找到館主的暗門。\n\n## 鹽走廊\n- 牆上覆著粗鹽，腳印踩上去會發出玻璃碎裂的聲音。\n- 牆上的抓痕由外向內——有人試圖逃出來。\n- 這裡必定遭遇迷宮蠕蟲（hp 6，護甲 0）。\n\n## 蠟燭長廊\n- 整條走廊都點著蠟燭，火焰是藍色的，且**風吹不熄**。\n- 這裡是蠟燭幽靈的領域（hp 10，護甲 1）。\n- 打散幽靈需要極難檢定（`wil` ≥ 12），否則它會記住你的臉。\n\n## 月門（終點）\n- 一扇嵌在牆上的門，門框是骨頭色的，門內透出**不是陽光的**光。\n- 門上沒有把手，只有一個剛好能放進一隻手的凹槽。\n- 到達門前時，先詢問玩家是否要推門——推門是**不可逆**的。\n\n## 迷宮法則\n1. 迷宮每晚重排，但在同一回合內不會改變。\n2. 迷宮不會主動攻擊，只有守衛會。\n3. 迷宮記得走過的人。\n世界觀與勢力\n\n## 迷宮\n不是建築，是**一種生物的消化道**。它每隔七天把裡面的東西重排一次，就像胃在蠕動。\n沒有人知道它從哪裡來。所有試圖量測迷宮的人，最後都成了牆上的一個數字。\n\n## 織夢者\n- 迷宮的「免疫系統」，負責把侵入的東西編進夢裡。\n- 牠不殘暴，牠只是**不理解「結束」**。\n- 牠收藏名字——每一個走進來的人的名字，都被牠存著，像存酒。\n- 與牠對話的唯一規矩：**不要對牠說謊，但可以對牠沉默**。\n\n## 醉月酒館\n- 迷宮裡唯一不重排的地方，因為館主用某種方式「釘住」了它。\n- 館主是第一位把名字賣給織夢者、又被撿回來的人。他重複這個交易了很多次。\n- 酒館的規矩只有一條：**門關上之前，每個人都可以點一杯「不要問名字的酒」**。\n\n## 離開的代價\n走出月門的人會回到地面，但會帶走一個在迷宮裡認識的名字——有時是別人的。\n這是酒館存在的原因：總得有人留下來記得。\n\n## 敘事底色\n迷宮不是恐怖，是**不理解**。最可怕的不是怪物，而是牠們的善意。",
+      "model_provider": "langgenius/openai_api_compatible/openai_api_compatible",
+      "model_name": "nvidia/nemotron-3-ultra-550b-a55b"
+    },
+    "outputs": {
+      "text": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\n\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"階梯井\",\"turn\":3,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*",
+      "reasoning_content": "",
+      "usage": {
+        "prompt_tokens": 3148,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 1083,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 4231,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 30.814,
+        "time_to_first_token": 21.802,
+        "time_to_generate": 9.012
+      },
+      "finish_reason": "stop"
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "parse_state",
+    "node_type": "code",
+    "title": "解析狀態區塊",
+    "status": "succeeded",
+    "elapsed_time": 0.445506,
+    "inputs": {
+      "dm_text": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\n\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\n\n```state\n{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"階梯井\",\"turn\":3,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}\n```\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*",
+      "context_text": "# 迷宮酒館｜回合簡報（資料來源：seekdb）\n\n## 目前狀態\nhp=20/20 gold=8 turn=2 death=0 location=燭火廳\ninventory=(空)\nflags=(無)\nstats=str:3,agi:4,int:5,wil:4\n\n## 玩家本回合行動\n我要離開酒館，往迷宮走。\n\n## 近期紀錄（seekdb 記憶日誌）\n第2回合 玩家: 我想看看吧台下面有沒有暗格。\n第2回合 DM: 你彎腰湊近吧台底板，指尖觸到一道幾乎看不見的細縫，木板邊緣還殘留著一絲陰冷的鐵鏽味。老霍依舊低頭擦杯，眼角卻瞥了你一眼，彷彿在等著看你怎麼選擇。你可以嘗試用機敏撬開暗格、塞給老霍五枚金幣買個方便，或是暫時放手繼續別的探索。 *你可以：嘗試機敏檢定（int）、花 5 金幣買通老霍、或放棄繼續查看。*\n第1回合 玩家: 我推開門，想先跟館主老霍說話。\n第1回合 DM: 你推開「醉月」那扇佈滿刀痕的橡木門，一股燒焦的艾草味混著陳年麥酒撲面而來。藍色的燭火在石牆上投出不自然的陰影，吧台後的老霍正用一塊灰布擦拭著不存在的杯沿，眼皮也不抬一下：「第七層的風吹不進這兒，客官想喝什麼，還是想問路？」 *你可以：跟老霍閒聊打聽月門消息、查看牆上潮濕的地圖刮痕、或低聲問吧台下的暗格。*\n\n## 檢索記憶（fulltext + vector，RRF 融合；mode=hybrid）\n第0回合 | ?",
+      "player_input": "我要離開酒館，往迷宮走。"
+    },
+    "outputs": {
+      "has_state": "yes",
+      "narrative": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\n\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\n\n\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*",
+      "player_input": "我要離開酒館，往迷宮走。",
+      "state_raw": "{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"階梯井\",\"turn\":3,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4}}",
+      "status": "生命 20/20　金幣 8　地點 階梯井　第 3 回合"
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "save_state",
+    "node_type": "http-request",
+    "title": "寫回狀態（seekdb）",
+    "status": "succeeded",
+    "elapsed_time": 3.004933,
+    "inputs": {},
+    "outputs": {
+      "status_code": 200,
+      "body": "{\"ok\":true,\"session_id\":\"7108a79f-fd07-4d74-863e-aad11ad820d8\",\"state\":{\"hp\":20,\"hp_max\":20,\"gold\":8,\"location\":\"階梯井\",\"turn\":3,\"inventory\":[],\"flags\":{},\"stats\":{\"str\":3,\"agi\":4,\"int\":5,\"wil\":4},\"death_count\":0,\"last_narrative\":\"你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\\n\\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\\n\\n\\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*\"},\"memory_seq\":6,\"delta\":\"moved 燭火廳->階梯井\",\"degraded\":false,\"warning\":\"\",\"db\":{\"mode\":\"server\",\"host\":\"127.0.0.1\",\"port\":2881,\"database\":\"test\",\"collection_prefix\":\"maze_tavern_state\"}}",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "1293",
+        "access-control-allow-origin": "*",
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "GET,POST,OPTIONS",
+        "date": "Sat, 14 Nov 2026 14:04:20 GMT",
+        "cache-status": "ff1ad9a3ae5b;detail=mismatch",
+        "via": "1.1 ff1ad9a3ae5b (squid/6.13)",
+        "connection": "keep-alive"
+      },
+      "files": []
+    },
+    "error": null
+  },
+  {
+    "turn": 3,
+    "workflow_run_id": "879d803c-0090-4161-9733-63d655dec3a3",
+    "node_id": "answer",
+    "node_type": "answer",
+    "title": "Answer",
+    "status": "succeeded",
+    "elapsed_time": 0.000424,
+    "inputs": {},
+    "outputs": {
+      "answer": "你推開北側那扇佈滿劍痕的鐵釘門，一股乾冷、帶著石灰粉末的風瞬間撲熄了身後的燒焦艾草味。石階向下蜿蜒，也向上失去在黯淡的藍燭光裡，每一級階梯邊緣都刻著數字——此刻看是「三、七、一」，眨眼間卻又變成「五、二、八」，彷彿在嘲笑想記住路徑的愚蠢。牆面滲出的濕氣凝成細珠，順著數字的筆畫滾落，聲音在井道裡被放大成悶響。\n\n你站在階梯井口，腳下是通往更深層的黑暗，頂端隱約有微光洩下；數字仍在無聲跳動，等著有人踏出第一步。你可以：順著當前顯示的「五」向下探索、逆著數字向上嘗試找出口、或伸手觸摸最近的那個變幻數字試圖辨別規律。\n\n\n*你可以：順著「五」向下、逆數字向上、或觸摸數字辨別規律。*\n\n---\n\n**狀態**　生命 20/20　金幣 8　地點 階梯井　第 3 回合",
+      "files": []
+    },
+    "error": null
+  }
+]

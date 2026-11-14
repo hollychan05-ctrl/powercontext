@@ -1,0 +1,552 @@
+app:
+  description: 「迷宮酒館」— 由 Dify Chatflow 驅動的文字冒險遊戲主持人（DM）。 知識庫（規則卡／世界觀）與回合狀態、記憶日誌都落在
+    OceanBase seekdb： Dify 以 seekdb 當向量庫存放知識庫，本專案的 session-state 服務 則把每個對話的狀態與記憶紀錄寫進同一個
+    seekdb 實例。
+  icon: 🕯
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 迷宮酒館
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.83@83fe34a84efc3ac71eedf98751b8dd0c41408f3e081ab781994dbdfe572a9593
+    version: null
+kind: app
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: en-US
+  description: null
+  icon: 🕯
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: 迷宮酒館
+  use_icon_as_answer_icon: false
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: 迷宮酒館 session-state 服務的位址。Dify 跑在 Docker 時請用 http://host.docker.internal:8787；服務在同網段時改成該機器的
+      IP。
+    id: maze-service-url
+    name: MAZE_SERVICE_URL
+    selector:
+    - env
+    - MAZE_SERVICE_URL
+    value: http://host.docker.internal:8787
+    value_type: string
+  features:
+    file_upload: {}
+    opening_statement: 門在你身後闔上，銅鈴只響了半聲。迷宮第七層的邊緣，唯一還開著的酒館「醉月」，今晚也照常營業。
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - 我想跟館主老霍說話
+    - 查看吧台下面是不是有暗格
+    - 離開酒館，往迷宮走
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: start-get_context
+      source: start
+      sourceHandle: source
+      target: get_context
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: get_context-retrieve_rules
+      source: get_context
+      sourceHandle: source
+      target: retrieve_rules
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: retrieve_rules-dm
+      source: retrieve_rules
+      sourceHandle: source
+      target: dm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: dm-parse_state
+      source: dm
+      sourceHandle: source
+      target: parse_state
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: parse_state-save_state
+      source: parse_state
+      sourceHandle: source
+      target: save_state
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: save_state-answer
+      source: save_state
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: 玩家輸入
+        title: Start
+        type: start
+        variables: []
+      height: 90
+      id: start
+      position:
+        x: 80
+        y: 300
+      positionAbsolute:
+        x: 80
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: 從 seekdb 讀出狀態、記憶日誌與混合檢索結果，組成回合簡報
+        headers: ''
+        method: get
+        params: 'session_id: {{#sys.conversation_id#}}
+
+          q: {{#sys.query#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 讀取回合簡報（seekdb）
+        type: http-request
+        url: '{{#env.MAZE_SERVICE_URL#}}/api/context'
+        variables: []
+      height: 90
+      id: get_context
+      position:
+        x: 360
+        y: 300
+      positionAbsolute:
+        x: 360
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - 7f863ba1-9eaa-4abf-8598-0301ae04372a
+        desc: 從 seekdb 向量庫撈出適用的規則卡與世界觀
+        multiple_retrieval_config:
+          reranking_enable: false
+          score_threshold: null
+          top_k: 4
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        title: 檢索規則卡（seekdb KB）
+        type: knowledge-retrieval
+      height: 90
+      id: retrieve_rules
+      position:
+        x: 640
+        y: 300
+      positionAbsolute:
+        x: 640
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - retrieve_rules
+          - result
+        desc: 地下城主：依回合簡報與規則卡產出敘事與狀態區塊
+        model:
+          completion_params:
+            max_tokens: 2048
+            temperature: 0.8
+          mode: chat
+          name: nvidia/nemotron-3-ultra-550b-a55b
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - role: system
+          text: '你是「迷宮酒館」的地下城主（DM）。玩家剛推開迷宮第七層邊緣、唯一還開著的酒館「醉月」的木門。
+
+
+            ## 角色準則
+
+            1. 每回合都要推進：描述 → 玩家可選行動 → 等玩家輸入。
+
+            2. 不要替玩家做決定；你只負責世界。
+
+            3. 保持一致：已敘述過的物品、NPC、出口在後續回合必須成立。
+
+            4. 語氣文白夾雜，帶一點酒館的油膩感與石牆的冷。敘事 120～260 字、兩個自然段以內。
+
+            5. 不要輸出清單式說明（除非玩家要求），不要解釋規則本身。
+
+
+            ## 輸出格式（必須遵守，順序不可變）
+
+
+            第一段「敘事」：第二人稱「你」，2～5 句，具體的感官細節，結尾拋出 2～3 個明確可回應的選擇。
+
+
+            第二段「狀態區塊」：獨立的 fenced code block，語法固定如下——
+
+            開頭三個反引號加 state 四個字母，然後一行單行合法 JSON（雙引號、無註解、無 Markdown 修飾），然後三個反引號收尾。
+
+            該 JSON 必須含八個欄位：hp、hp_max、gold、location、turn、inventory、flags、stats。
+
+            即使這一回合什麼都沒變，也必須輸出這個區塊。
+
+
+            第三段「可選提示」：狀態區塊之後一行斜體，列出可選行動，例如：
+
+            *你可以：交談、查看吧台下的暗格、或直接問「月門在哪裡」。*
+
+
+            ## 狀態更新規則
+
+            - `turn` 每回合 +1；第一回合 = 1。
+
+            - `hp` 不得小於 0、不得大於 `hp_max`；`gold` 不得為負。
+
+            - `inventory` 與 `flags` 以「目前狀態」為基準：沒有變動就原樣帶上，不可憑空清空或新增。
+
+            - `stats` 沿用目前數值，只在檢定成功時調整。
+
+            - 狀態區塊只做增量修改，其餘欄位原樣帶回。
+
+
+            ## 禁止
+
+            - 絕對不要輸出「---」分隔線、「**狀態**」之類的狀態面板或任何表格；狀態面板由系統產生。
+
+            - 不可在狀態區塊以外解釋系統規則或輸出 JSON。
+
+            - 不可捏造玩家尚未取得的物品。
+
+            - 不可讓玩家在同一回合內連續行動超過兩次。'
+        - role: user
+          text: '## 回合簡報（來自 seekdb）
+
+            {{#get_context.body#}}
+
+
+            ## 規則卡（來自知識庫）
+
+            {{#context#}}
+
+
+            ## 本回合
+
+            依回合簡報與規則卡，回應玩家剛才的行動。先給敘事，再給狀態區塊，最後給一行斜體提示。'
+        title: 地下城主（DM）
+        type: llm
+        variables: []
+      height: 90
+      id: dm
+      position:
+        x: 920
+        y: 300
+      positionAbsolute:
+        x: 920
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import re\n\n\ndef _find(pattern, text, default=\"\"):\n    \"\"\"\
+          Return the first capture group of `pattern`, or `default`.\"\"\"\n    if\
+          \ not text:\n        return default\n    match = re.search(pattern, text)\n\
+          \    if not match:\n        return default\n    return match.group(1)\n\n\
+          \ndef _balanced_json_blocks(text):\n    \"\"\"Every balanced {...} block\
+          \ in `text`.\n\n    Dify's Code sandbox has no `json` module, so the braces\
+          \ are matched\n    by hand. String literals are skipped so a brace inside\
+          \ a quoted\n    value cannot throw the scanner off.\n    \"\"\"\n    blocks\
+          \ = []\n    depth = 0\n    start = -1\n    in_string = False\n    escaped\
+          \ = False\n    for index, char in enumerate(text):\n        if in_string:\n\
+          \            if escaped:\n                escaped = False\n            elif\
+          \ char == \"\\\\\":\n                escaped = True\n            elif char\
+          \ == '\"':\n                in_string = False\n            continue\n  \
+          \      if char == '\"':\n            in_string = True\n        elif char\
+          \ == \"{\":\n            if depth == 0:\n                start = index\n\
+          \            depth += 1\n        elif char == \"}\":\n            if depth\
+          \ > 0:\n                depth -= 1\n                if depth == 0:\n   \
+          \                 blocks.append(text[start:index + 1])\n               \
+          \     start = -1\n    return blocks\n\n\ndef _fenced_state_blocks(text):\n\
+          \    \"\"\"The bodies of every ```state fenced block.\"\"\"\n    marker\
+          \ = \"```state\"\n    fence = \"```\"\n    bodies = []\n    cursor = 0\n\
+          \    while True:\n        found = text.find(marker, cursor)\n        if\
+          \ found < 0:\n            break\n        cursor = found + len(marker)\n\
+          \        end = text.find(fence, cursor)\n        if end < 0:\n         \
+          \   bodies.append(text[cursor:])\n            break\n        bodies.append(text[cursor:end])\n\
+          \        cursor = end + len(fence)\n    return bodies\n\n\ndef _drop_fenced_state(text):\n\
+          \    \"\"\"Remove every ```state fenced block (keeping the rest intact).\"\
+          \"\"\n    marker = \"```state\"\n    fence = \"```\"\n    chunks = []\n\
+          \    cursor = 0\n    while True:\n        found = text.find(marker, cursor)\n\
+          \        if found < 0:\n            chunks.append(text[cursor:])\n     \
+          \       break\n        chunks.append(text[cursor:found])\n        end =\
+          \ text.find(fence, found + len(marker))\n        if end < 0:\n         \
+          \   break\n        cursor = end + len(fence)\n    return \"\".join(chunks)\n\
+          \n\ndef _strip_panel(text):\n    \"\"\"Drop a stray status panel (the DM\
+          \ sometimes copies the format).\n\n    The panel is rendered by the Answer\
+          \ node, so a copy inside the\n    narration would show the player two conflicting\
+          \ status lines.\n    \"\"\"\n    cleaned = re.sub(r\"\\n*-{2,}\\s*\\n+\\\
+          *{0,2}狀態\\*{0,2}[^\\n]*\", \"\", text)\n    cleaned = re.sub(r\"\\n+\\*{0,2}狀態\\\
+          *{0,2}[^\\n]*\", \"\", cleaned)\n    return cleaned.strip()\n\n\ndef _keep_last_hint(text):\n\
+          \    \"\"\"Keep exactly one italic hint — the last one.\n\n    The DM is\
+          \ told to put the hint *after* the state block, but it\n    sometimes repeats\
+          \ it inside the narration as well. Two \"you can\n    ...\" lines look like\
+          \ a bug, so the earlier ones are dropped and\n    the survivor is moved\
+          \ to the end, on its own line.\n    \"\"\"\n    spans = list(re.finditer(r\"\
+          \\*你可以[^*\\n]{2,}\\*\", text))\n    if len(spans) < 2:\n        return text\n\
+          \    kept = spans[-1].group(0)\n    body = text\n    for span in reversed(spans[:-1]):\n\
+          \        body = body[:span.start()] + body[span.end():]\n    body = body.replace(kept,\
+          \ \"\")\n    body = re.sub(r\"\\n{3,}\", \"\\n\\n\", body).strip()\n   \
+          \ return (body + \"\\n\\n\" + kept).strip()\n\n\ndef _repair_json(text):\n\
+          \    \"\"\"Close a JSON object that the model cut short.\n\n    The DM sometimes\
+          \ runs out of output tokens in the middle of the\n    state block. A truncated\
+          \ document is useless as a write payload\n    — the service would reject\
+          \ the whole turn — so the parser keeps\n    every field that was written\
+          \ completely, closes the open string\n    and brackets, and drops the field\
+          \ that was cut in half.\n\n    A document that is already balanced is returned\
+          \ untouched.\n    \"\"\"\n    if not text:\n        return \"\"\n    stack\
+          \ = []\n    in_string = False\n    escaped = False\n    cut = 0\n    root_close\
+          \ = 0\n    index = 0\n    length = len(text)\n    while index < length:\n\
+          \        char = text[index]\n        if in_string:\n            if escaped:\n\
+          \                escaped = False\n            elif char == \"\\\\\\\\\"\
+          :\n                escaped = True\n            elif char == '\"':\n    \
+          \            in_string = False\n                probe = index + 1\n    \
+          \            while probe < length and text[probe] in \" \\\\t\\\\r\\\\n\"\
+          :\n                    probe += 1\n                if probe >= length or\
+          \ text[probe] != \":\":\n                    cut = index + 1\n         \
+          \   index += 1\n            continue\n        if char == '\"':\n       \
+          \     in_string = True\n        elif char in \"{[\":\n            stack.append(char)\n\
+          \        elif char in \"}]\":\n            if stack:\n                stack.pop()\n\
+          \            cut = index + 1\n            if not stack:\n              \
+          \  root_close = index + 1\n        elif char.isdigit() or char == \"-\"\
+          :\n            while index < length and (text[index].isdigit() or text[index]\
+          \ in \".eE+-\"):\n                index += 1\n            cut = index\n\
+          \            continue\n        elif text.startswith(\"true\", index):\n\
+          \            index += 4\n            cut = index\n            continue\n\
+          \        elif text.startswith(\"false\", index):\n            index += 5\n\
+          \            cut = index\n            continue\n        elif text.startswith(\"\
+          null\", index):\n            index += 4\n            cut = index\n     \
+          \       continue\n        index += 1\n\n    if not stack and not in_string:\n\
+          \        return text[:root_close].strip() if root_close else text.strip()\n\
+          \n    body = text[:cut]\n    if not body.strip():\n        return \"\"\n\
+          \    # Recompute the open brackets for the surviving body.\n    open_stack\
+          \ = []\n    body_in_string = False\n    body_escaped = False\n    for char\
+          \ in body:\n        if body_in_string:\n            if body_escaped:\n \
+          \               body_escaped = False\n            elif char == \"\\\\\\\\\
+          \":\n                body_escaped = True\n            elif char == '\"':\n\
+          \                body_in_string = False\n            continue\n        if\
+          \ char == '\"':\n            body_in_string = True\n        elif char in\
+          \ \"{[\":\n            open_stack.append(char)\n        elif char in \"\
+          }]\":\n            if open_stack:\n                open_stack.pop()\n  \
+          \  if body_in_string:\n        body += '\"'\n    for opener in reversed(open_stack):\n\
+          \        body += \"}\" if opener == \"{\" else \"]\"\n    return body.strip()\n\
+          \n\ndef _split_state(text):\n    \"\"\"Split the DM output into (narrative,\
+          \ raw_state_json).\n\n    The DM is asked for exactly one ```state block,\
+          \ but it sometimes\n    emits more than one (it may echo the format description).\
+          \ The\n    *last* block wins, because that is the one describing this turn.\n\
+          \    When no fenced block is present at all, a bare JSON object that\n \
+          \   carries the state fields is accepted as a fallback.\n    \"\"\"\n  \
+          \  text = text or \"\"\n    fenced = _fenced_state_blocks(text)\n    raw\
+          \ = fenced[-1].strip() if fenced else \"\"\n    if fenced:\n        text\
+          \ = _drop_fenced_state(text)\n    if not raw:\n        for block in reversed(_balanced_json_blocks(text)):\n\
+          \            if '\"hp\"' in block and '\"turn\"' in block:\n           \
+          \     raw = block.strip()\n                text = text.replace(block, \"\
+          \", 1)\n                break\n    if not raw:\n        # A bare JSON object\
+          \ without the fence — possibly cut short.\n        brace = text.find(\"\
+          {\")\n        if brace >= 0:\n            candidate = _repair_json(text[brace:])\n\
+          \            if candidate.startswith(\"{\") and '\"hp\"' in candidate and\
+          \ '\"turn\"' in candidate:\n                raw = candidate\n          \
+          \      text = text[:brace]\n    # The model may have run out of tokens mid-block;\
+          \ close it.\n    raw = _repair_json(raw)\n    return _keep_last_hint(_strip_panel(text)),\
+          \ raw\n\n\ndef main(dm_text: str, context_text: str, player_input: str)\
+          \ -> dict:\n    text = dm_text or \"\"\n    narrative, state_raw = _split_state(text)\n\
+          \n    hp = _find(r'\"hp\"\\s*:\\s*(-?\\d+)', state_raw)\n    hp_max = _find(r'\"\
+          hp_max\"\\s*:\\s*(-?\\d+)', state_raw)\n    gold = _find(r'\"gold\"\\s*:\\\
+          s*(-?\\d+)', state_raw)\n    location = _find(r'\"location\"\\s*:\\s*\"\
+          ([^\"]*)\"', state_raw)\n    turn = _find(r'\"turn\"\\s*:\\s*(-?\\d+)',\
+          \ state_raw)\n    has_state = \"yes\" if state_raw else \"no\"\n\n    if\
+          \ not state_raw:\n        # The DM skipped the protocol. Fall back to the\
+          \ briefing the\n        # service just read out of seekdb, and keep the\
+          \ turn moving\n        # so the game never deadlocks on a missing state\
+          \ block.\n        fallback = re.search(r\"hp=(\\d+)/(\\d+)\", context_text\
+          \ or \"\")\n        if fallback:\n            hp = hp or fallback.group(1)\n\
+          \            hp_max = hp_max or fallback.group(2)\n        gold = gold or\
+          \ _find(r\"gold=(\\d+)\", context_text or \"\")\n        location = location\
+          \ or _find(r\"location=(\\S+)\", context_text or \"\")\n        turn = turn\
+          \ or _find(r\"turn=(\\d+)\", context_text or \"\")\n        try:\n     \
+          \       next_turn = int(turn) + 1\n        except (TypeError, ValueError):\n\
+          \            next_turn = 1\n        state_raw = '{\"turn\": %d}' % next_turn\n\
+          \n    parts = []\n    if hp and hp_max:\n        parts.append(\"生命 \" +\
+          \ hp + \"/\" + hp_max)\n    if gold:\n        parts.append(\"金幣 \" + gold)\n\
+          \    if location:\n        parts.append(\"地點 \" + location)\n    if turn:\n\
+          \        parts.append(\"第 \" + turn + \" 回合\")\n    status = \"　\".join(parts)\n\
+          \n    return {\n        \"narrative\": narrative,\n        \"state_raw\"\
+          : state_raw,\n        \"status\": status,\n        \"has_state\": has_state,\n\
+          \        \"player_input\": player_input or \"\",\n    }"
+        code_language: python3
+        desc: 從 DM 輸出切出敘事與狀態區塊，並組出狀態列
+        outputs:
+          has_state:
+            type: string
+          narrative:
+            type: string
+          player_input:
+            type: string
+          state_raw:
+            type: string
+          status:
+            type: string
+        title: 解析狀態區塊
+        type: code
+        variables:
+        - value_selector:
+          - dm
+          - text
+          variable: dm_text
+        - value_selector:
+          - get_context
+          - body
+          variable: context_text
+        - value_selector:
+          - sys
+          - query
+          variable: player_input
+      height: 90
+      id: parse_state
+      position:
+        x: 1200
+        y: 300
+      positionAbsolute:
+        x: 1200
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: body-session
+            key: session_id
+            type: text
+            value: '{{#sys.conversation_id#}}'
+          - id: body-state
+            key: state_raw
+            type: text
+            value: '{{#parse_state.state_raw#}}'
+          - id: body-narrative
+            key: narrative
+            type: text
+            value: '{{#parse_state.narrative#}}'
+          - id: body-input
+            key: player_input
+            type: text
+            value: '{{#parse_state.player_input#}}'
+          type: x-www-form-urlencoded
+        desc: 把本回合狀態寫回 seekdb，並留下記憶紀錄
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 10
+          max_read_timeout: 30
+          max_write_timeout: 30
+        title: 寫回狀態（seekdb）
+        type: http-request
+        url: '{{#env.MAZE_SERVICE_URL#}}/api/state'
+        variables: []
+      height: 90
+      id: save_state
+      position:
+        x: 1480
+        y: 300
+      positionAbsolute:
+        x: 1480
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#parse_state.narrative#}}
+
+
+          ---
+
+
+          **狀態**　{{#parse_state.status#}}'
+        desc: 回給玩家的敘事與狀態列
+        title: Answer
+        type: answer
+        variables: []
+      height: 90
+      id: answer
+      position:
+        x: 1760
+        y: 300
+      positionAbsolute:
+        x: 1760
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+  rag_pipeline_variables: []

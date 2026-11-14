@@ -1,0 +1,18 @@
+{
+  "name": "maze-tavern-state-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "seekdb-backed session-state + memory service for the Dify 「迷宮酒館」 chatflow",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "seed": "node scripts/seed.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "seekdb": "1.4.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

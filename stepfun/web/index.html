@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>端侧知识库 · 浏览器本地向量化 + seekdb 混合检索</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@huggingface/transformers": "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1/dist/transformers.min.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <strong>端侧知识库</strong>
+        <span class="sub">浏览器本地 embedding · seekdb 混合检索</span>
+      </div>
+      <div class="status">
+        <span id="backend-badge" class="badge badge-warn">后端：未连接</span>
+        <span id="device-badge" class="badge badge-muted">推理后端：未加载</span>
+        <span id="model-badge" class="badge badge-muted">模型：未加载</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>1 · 端侧模型</h2>
+        <p class="hint">
+          embedding 在浏览器本地完成（WebGPU 优先，不支持时自动降级 WASM）。勾选“加载”后不会调用任何云端推理接口。
+        </p>
+        <div class="row">
+          <label>模型
+            <select id="model-select">
+              <option value="Xenova/all-MiniLM-L6-v2">Xenova/all-MiniLM-L6-v2（384 维）</option>
+              <option value="Xenova/bge-small-en-v1.5">Xenova/bge-small-en-v1.5（384 维）</option>
+            </select>
+          </label>
+          <label>精度
+            <select id="dtype-select">
+              <option value="fp32">fp32（基线）</option>
+              <option value="fp16">fp16</option>
+              <option value="q8" selected>INT8 / q8</option>
+            </select>
+          </label>
+          <label>推理后端
+            <select id="device-select">
+              <option value="auto" selected>自动（WebGPU→WASM）</option>
+              <option value="webgpu">强制 WebGPU</option>
+              <option value="wasm">强制 WASM</option>
+            </select>
+          </label>
+          <label>模型源
+            <select id="source-select">
+              <option value="auto" selected>自动（优先本地代理）</option>
+              <option value="proxy">本地后端代理（推荐）</option>
+              <option value="huggingface">huggingface.co（直连）</option>
+              <option value="mirror">hf-mirror.com（直连）</option>
+            </select>
+          </label>
+          <button id="load-model" class="primary">加载模型</button>
+        </div>
+        <div id="model-info" class="kv"></div>
+      </section>
+
+      <section class="card">
+        <h2>2 · 导入语料（本地向量化后写入 seekdb）</h2>
+        <p class="hint">每行一段文本；也支持选择 .txt / .jsonl（每行 <code>{"id","text"}</code>）文件。</p>
+        <div class="row">
+          <input type="file" id="file-input" accept=".txt,.jsonl,.json" />
+          <button id="load-sample">载入示例语料</button>
+          <button id="clear-db" class="danger">清空数据库</button>
+        </div>
+        <textarea id="corpus-input" rows="6" placeholder="在此粘贴文本，每行一条……"></textarea>
+        <div class="row">
+          <button id="ingest" class="primary">向量化并写入</button>
+          <span id="ingest-progress" class="hint"></span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3 · 检索</h2>
+        <div class="row">
+          <input id="query-input" type="text" placeholder="输入查询，例如：如何做向量与全文的混合检索？" />
+          <label>模式
+            <select id="mode-select">
+              <option value="hybrid" selected>混合（seekdb RRF）</option>
+              <option value="vector">仅向量</option>
+            </select>
+          </label>
+          <label>返回
+            <select id="nresults-select">
+              <option>3</option><option selected>5</option><option>10</option>
+            </select>
+          </label>
+          <button id="search" class="primary">检索</button>
+        </div>
+        <ol id="results" class="results"></ol>
+      </section>
+
+      <section class="card">
+        <h2>4 · 检索质量对比（量化前 vs 当前配置）</h2>
+        <p class="hint">
+          使用 <code>data/eval.json</code> 的标注集，在相同语料上计算 Recall@K 与 nDCG@K；每次调用
+          <code>/api/search</code>，检索完全由 seekdb 完成。
+        </p>
+        <div class="row">
+          <label>K <input id="eval-k" type="number" min="1" max="20" value="5" style="width:5rem" /></label>
+          <button id="run-eval">运行评测</button>
+          <span id="eval-status" class="hint"></span>
+        </div>
+        <table id="eval-table" class="table">
+          <thead>
+            <tr><th>配置</th><th>推理后端</th><th>Recall@K</th><th>nDCG@K</th><th>查询数</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>5 · 性能观测</h2>
+        <p class="hint">分阶段计时；首次（冷）与预热后（热）分开报告。数量为毫秒，取最近一次操作。</p>
+        <table class="table">
+          <thead>
+            <tr><th>阶段</th><th>冷 / 首次</th><th>热 / 后续</th></tr>
+          </thead>
+          <tbody id="perf-body"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="foot">
+      推理全程在浏览器本机完成；向量与文本存入 seekdb，混合检索在 seekdb 内完成。
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

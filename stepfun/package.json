@@ -1,0 +1,20 @@
+{
+  "name": "stepfun-edge-kb",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Browser-side embedding (Transformers.js) + seekdb hybrid retrieval mini knowledge base.",
+  "scripts": {
+    "install:server": "npm --prefix server install --legacy-peer-deps",
+    "start": "node server/src/index.mjs",
+    "dev": "node --watch server/src/index.mjs",
+    "unit": "node server/test/unit.mjs",
+    "smoke": "node server/test/smoke.mjs",
+    "api": "node server/test/api.mjs",
+    "browser": "node server/test/browser.mjs",
+    "test": "npm run unit && npm run smoke && npm run api"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+.seekdb/
+.env
+*.log
+.DS_Store
+web/vendor/
+.cache/
